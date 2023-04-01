@@ -20,7 +20,8 @@ public class Interval {
     public boolean hasIntersection(Interval interval2) {
         return this.max.isWithin(interval2.min.value)
                 && interval2.min.isWithin(this.max.value)
-                && this.min.isWithin(interval2.max.value);
+                && this.min.isWithin(interval2.max.value)
+                && interval2.max.isWithin(this.min.value);
     }
 
     @Override
