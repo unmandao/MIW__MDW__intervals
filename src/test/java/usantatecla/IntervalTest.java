@@ -3,55 +3,71 @@ package usantatecla;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class IntervalTest {
 
-    private final Point left = new Point(-2.2);
-    private final Point right = new Point(4.4);
+    private Point left;
+    private Point right;
+    private IntervalBuilder intervalBuilder;
 
+    @BeforeEach
+    public void before() {
+        this.left = new Point(-2.2);
+        this.right = new Point(4.4);
+        this.intervalBuilder = new IntervalBuilder();
+    }
     @Test
-    void givenIntervalLeftOpenTestRight() {
-        assertTrue(new Interval(new Min(left.getEqual()), new Max(right.getEqual())).include(right.getLess()));
-        assertFalse(new Interval(new Min(left.getEqual()), new Max(right.getEqual())).include(right.getEqual()));
-        assertFalse(new Interval(new Min(left.getEqual()), new Max(right.getEqual())).include(right.getGreater()));
+    void givenIntervalOpenOpenTest() {
+        Interval interval = this.intervalBuilder.open(left.getEqual()).open(right.getEqual()).build();
 
-        assertTrue(new Interval(new Min(left.getEqual()), new ClosedMax(right.getEqual())).include(right.getLess()));
-        assertTrue(new Interval(new Min(left.getEqual()), new ClosedMax(right.getEqual())).include(right.getEqual()));
-        assertFalse(new Interval(new Min(left.getEqual()), new ClosedMax(right.getEqual())).include(right.getGreater()));
+        assertFalse(interval.include(left.getLess()));
+        assertFalse(interval.include(left.getEqual()));
+        assertTrue(interval.include(left.getGreater()));
+
+        assertTrue(interval.include(right.getLess()));
+        assertFalse(interval.include(right.getEqual()));
+        assertFalse(interval.include(right.getGreater()));
     }
 
     @Test
-    void givenIntervalLeftCloseTestRight() {
-        assertTrue(new Interval(new ClosedMin(left.getEqual()), new Max(right.getEqual())).include(right.getLess()));
-        assertFalse(new Interval(new ClosedMin(left.getEqual()), new Max(right.getEqual())).include(right.getEqual()));
-        assertFalse(new Interval(new ClosedMin(left.getEqual()), new Max(right.getEqual())).include(right.getGreater()));
+    void givenIntervalClosedOpenTest() {
+        Interval interval = this.intervalBuilder.closed(left.getEqual()).open(right.getEqual()).build();
 
-        assertTrue(new Interval(new ClosedMin(left.getEqual()), new ClosedMax(right.getEqual())).include(right.getLess()));
-        assertTrue(new Interval(new ClosedMin(left.getEqual()), new ClosedMax(right.getEqual())).include(right.getEqual()));
-        assertFalse(new Interval(new ClosedMin(left.getEqual()), new ClosedMax(right.getEqual())).include(right.getGreater()));
+        assertFalse(interval.include(left.getLess()));
+        assertTrue(interval.include(left.getEqual()));
+        assertTrue(interval.include(left.getGreater()));
+
+        assertTrue(interval.include(right.getLess()));
+        assertFalse(interval.include(right.getEqual()));
+        assertFalse(interval.include(right.getGreater()));
     }
 
     @Test
-    void givenIntervalLeftOpenTestLeft() {
-        assertFalse(new Interval(new Min(left.getEqual()), new Max(right.getEqual())).include(left.getLess()));
-        assertFalse(new Interval(new Min(left.getEqual()), new Max(right.getEqual())).include(left.getEqual()));
-        assertTrue(new Interval(new Min(left.getEqual()), new Max(right.getEqual())).include(left.getGreater()));
+    void givenIntervalOpenClosedTest() {
+        Interval interval = this.intervalBuilder.open(left.getEqual()).closed(right.getEqual()).build();
+        
+        assertFalse(interval.include(left.getLess()));
+        assertFalse(interval.include(left.getEqual()));
+        assertTrue(interval.include(left.getGreater()));
 
-        assertFalse(new Interval(new Min(left.getEqual()), new ClosedMax(right.getEqual())).include(left.getLess()));
-        assertFalse(new Interval(new Min(left.getEqual()), new ClosedMax(right.getEqual())).include(left.getEqual()));
-        assertTrue(new Interval(new Min(left.getEqual()), new ClosedMax(right.getEqual())).include(left.getGreater()));
+        assertTrue(interval.include(right.getLess()));
+        assertTrue(interval.include(right.getEqual()));
+        assertFalse(interval.include(right.getGreater()));
     }
 
     @Test
-    void givenIntervalLeftCloseTestLeft() {
-        assertFalse(new Interval(new ClosedMin(left.getEqual()), new Max(right.getEqual())).include(left.getLess()));
-        assertTrue(new Interval(new ClosedMin(left.getEqual()), new Max(right.getEqual())).include(left.getEqual()));
-        assertTrue(new Interval(new ClosedMin(left.getEqual()), new Max(right.getEqual())).include(left.getGreater()));
+    void givenIntervalClosedClosedTest() {
+        Interval interval = this.intervalBuilder.closed(left.getEqual()).closed(right.getEqual()).build();
+        
+        assertFalse(interval.include(left.getLess()));
+        assertTrue(interval.include(left.getEqual()));
+        assertTrue(interval.include(left.getGreater()));
 
-        assertFalse(new Interval(new ClosedMin(left.getEqual()), new ClosedMax(right.getEqual())).include(left.getLess()));
-        assertTrue(new Interval(new ClosedMin(left.getEqual()), new ClosedMax(right.getEqual())).include(left.getEqual()));
-        assertTrue(new Interval(new ClosedMin(left.getEqual()), new ClosedMax(right.getEqual())).include(left.getGreater()));
+        assertTrue(interval.include(right.getLess()));
+        assertTrue(interval.include(right.getEqual()));
+        assertFalse(interval.include(right.getGreater()));
     }
 
 }
