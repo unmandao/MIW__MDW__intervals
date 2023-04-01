@@ -10,12 +10,13 @@ class IntervalTest {
     @Test
     void givenIntervalOpenOpenWhenIncludeWithIncludedValueThenTrue() {
         Point right = new Point(4.4);
-        assertTrue(new Interval(true, -1.7, new Max(right.getEqual())).include(right.getLess()));
-        assertFalse(new Interval(true, -1.7, new Max(right.getEqual())).include(right.getEqual()));
-        assertFalse(new Interval(true, -1.7, new Max(right.getEqual())).include(right.getGreater()));
-        assertTrue(new Interval(true, -1.7, new ClosedMax(right.getEqual())).include(right.getLess()));
-        assertTrue(new Interval(true, -1.7, new ClosedMax(right.getEqual())).include(right.getEqual()));
-        assertFalse(new Interval(true, -1.7, new ClosedMax(right.getEqual())).include(right.getGreater()));
+        Point left = new Point(-1.7);
+        assertTrue(new Interval(new Min(left.getEqual()), new Max(right.getEqual())).include(right.getLess()));
+        assertFalse(new Interval(new Min(left.getEqual()), new Max(right.getEqual())).include(right.getEqual()));
+        assertFalse(new Interval(new Min(left.getEqual()), new Max(right.getEqual())).include(right.getGreater()));
+        assertTrue(new Interval(new Min(left.getEqual()), new ClosedMax(right.getEqual())).include(right.getLess()));
+        assertTrue(new Interval(new Min(left.getEqual()), new ClosedMax(right.getEqual())).include(right.getEqual()));
+        assertFalse(new Interval(new Min(left.getEqual()), new ClosedMax(right.getEqual())).include(right.getGreater()));
     }
 
 }
