@@ -3,24 +3,16 @@ package usantatecla;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class IntervalTest {
 
-    private Point left;
-    private Point right;
-    private IntervalBuilder intervalBuilder;
+    private final Point left = new Point(-2.2);
+    private final Point right = new Point(4.4);
 
-    @BeforeEach
-    public void before() {
-        this.left = new Point(-2.2);
-        this.right = new Point(4.4);
-        this.intervalBuilder = new IntervalBuilder();
-    }
     @Test
     void givenIntervalOpenOpenTest() {
-        Interval interval = this.intervalBuilder.open(left.getEqual()).open(right.getEqual()).build();
+        Interval interval = new IntervalBuilder().open(left.getEqual()).open(right.getEqual()).build();
 
         assertFalse(interval.include(left.getLess()));
         assertFalse(interval.include(left.getEqual()));
@@ -33,7 +25,7 @@ class IntervalTest {
 
     @Test
     void givenIntervalClosedOpenTest() {
-        Interval interval = this.intervalBuilder.closed(left.getEqual()).open(right.getEqual()).build();
+        Interval interval = new IntervalBuilder().closed(left.getEqual()).open(right.getEqual()).build();
 
         assertFalse(interval.include(left.getLess()));
         assertTrue(interval.include(left.getEqual()));
@@ -46,7 +38,7 @@ class IntervalTest {
 
     @Test
     void givenIntervalOpenClosedTest() {
-        Interval interval = this.intervalBuilder.open(left.getEqual()).closed(right.getEqual()).build();
+        Interval interval = new IntervalBuilder().open(left.getEqual()).closed(right.getEqual()).build();
         
         assertFalse(interval.include(left.getLess()));
         assertFalse(interval.include(left.getEqual()));
@@ -59,7 +51,7 @@ class IntervalTest {
 
     @Test
     void givenIntervalClosedClosedTest() {
-        Interval interval = this.intervalBuilder.closed(left.getEqual()).closed(right.getEqual()).build();
+        Interval interval = new IntervalBuilder().closed(left.getEqual()).closed(right.getEqual()).build();
         
         assertFalse(interval.include(left.getLess()));
         assertTrue(interval.include(left.getEqual()));
@@ -72,7 +64,7 @@ class IntervalTest {
 
     @Test
     void givenIntervalOpenOpenTestHasIntersectionWithOpenOpenThenTrue() {
-        Interval interval = this.intervalBuilder.open(left.getEqual()).open(right.getEqual()).build();
+        Interval interval = new IntervalBuilder().open(left.getEqual()).open(right.getEqual()).build();
         Interval interval2 = new IntervalBuilder().open(left.getGreater()).open(right.getLess()).build();
 
         assertTrue(interval.hasIntersection(interval2));
@@ -80,7 +72,7 @@ class IntervalTest {
 
     @Test
     void givenIntervalOpenOpenTestHasIntersectionWithOpenOpenThenFalse() {
-        Interval interval = this.intervalBuilder.open(left.getEqual()).open(right.getEqual()).build();
+        Interval interval = new IntervalBuilder().open(left.getEqual()).open(right.getEqual()).build();
         Interval interval2 = new IntervalBuilder().open(right.getEqual()).open(right.getGreater()).build();
 
         assertFalse(interval.hasIntersection(interval2));
@@ -88,7 +80,7 @@ class IntervalTest {
 
     @Test
     void givenIntervalOpenClosedTestHasIntersectionWithOpenOpenThenFalse() {
-        Interval interval = this.intervalBuilder.open(left.getEqual()).closed(right.getEqual()).build();
+        Interval interval = new IntervalBuilder().open(left.getEqual()).closed(right.getEqual()).build();
         Interval interval2 = new IntervalBuilder().open(right.getEqual()).open(right.getGreater()).build();
 
         assertFalse(interval.hasIntersection(interval2));
@@ -96,7 +88,7 @@ class IntervalTest {
 
     @Test
     void givenIntervalOpenClosedTestHasIntersectionWithClosedOpenThenTrue() {
-        Interval interval = this.intervalBuilder.open(left.getEqual()).closed(right.getEqual()).build();
+        Interval interval = new IntervalBuilder().open(left.getEqual()).closed(right.getEqual()).build();
         Interval interval2 = new IntervalBuilder().closed(right.getEqual()).open(right.getGreater()).build();
 
         assertTrue(interval.hasIntersection(interval2));
@@ -104,7 +96,7 @@ class IntervalTest {
 
     @Test
     void givenIntervalOpenOpenTestHasIntersectionWithOpenClosedLeftSideThenFalse() {
-        Interval interval = this.intervalBuilder.open(left.getEqual()).open(right.getEqual()).build();
+        Interval interval = new IntervalBuilder().open(left.getEqual()).open(right.getEqual()).build();
         Interval interval2 = new IntervalBuilder().open(left.getLess()).closed(left.getEqual()).build();
 
         assertFalse(interval.hasIntersection(interval2));
@@ -112,7 +104,7 @@ class IntervalTest {
 
     @Test
     void givenIntervalClosedOpenTestHasIntersectionWithOpenClosedLeftSideThenTrue() {
-        Interval interval = this.intervalBuilder.closed(left.getEqual()).open(right.getEqual()).build();
+        Interval interval = new IntervalBuilder().closed(left.getEqual()).open(right.getEqual()).build();
         Interval interval2 = new IntervalBuilder().open(left.getLess()).closed(left.getEqual()).build();
 
         assertTrue(interval.hasIntersection(interval2));
@@ -120,7 +112,7 @@ class IntervalTest {
 
     @Test
     void givenIntervalOpenOpenTestHasIntersectionWithOpenOpenLeftSideThenTrue() {
-        Interval interval = this.intervalBuilder.open(left.getEqual()).open(right.getEqual()).build();
+        Interval interval = new IntervalBuilder().open(left.getEqual()).open(right.getEqual()).build();
         Interval interval2 = new IntervalBuilder().open(left.getLess()).open(left.getGreater()).build();
 
         assertTrue(interval.hasIntersection(interval2));
@@ -128,7 +120,7 @@ class IntervalTest {
 
     @Test
     void givenIntervalClosedOpenTestHasIntersectionWithOpenOpenLeftSideThenFalse() {
-        Interval interval = this.intervalBuilder.closed(left.getEqual()).open(right.getEqual()).build();
+        Interval interval = new IntervalBuilder().closed(left.getEqual()).open(right.getEqual()).build();
         Interval interval2 = new IntervalBuilder().open(left.getLess()).open(left.getEqual()).build();
 
         assertFalse(interval.hasIntersection(interval2));
