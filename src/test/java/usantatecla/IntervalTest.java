@@ -71,7 +71,7 @@ class IntervalTest {
     }
 
     @Test
-    void givenIntervalOpenOpenTestHasIntersection() {
+    void givenIntervalOpenOpenTestHasIntersectionWithOpenOpenThenTrue() {
         Interval interval = this.intervalBuilder.open(left.getEqual()).open(right.getEqual()).build();
         Interval interval2 = new IntervalBuilder().open(left.getGreater()).open(right.getLess()).build();
 
@@ -79,7 +79,7 @@ class IntervalTest {
     }
 
     @Test
-    void givenIntervalOpenOpenTestHasIntersection2() {
+    void givenIntervalOpenOpenTestHasIntersectionWithOpenOpenThenFalse() {
         Interval interval = this.intervalBuilder.open(left.getEqual()).open(right.getEqual()).build();
         Interval interval2 = new IntervalBuilder().open(right.getEqual()).open(right.getGreater()).build();
 
@@ -87,7 +87,7 @@ class IntervalTest {
     }
 
     @Test
-    void givenIntervalOpenOpenTestHasIntersection3() {
+    void givenIntervalOpenClosedTestHasIntersectionWithOpenOpen() {
         Interval interval = this.intervalBuilder.open(left.getEqual()).closed(right.getEqual()).build();
         Interval interval2 = new IntervalBuilder().open(right.getEqual()).open(right.getGreater()).build();
 
