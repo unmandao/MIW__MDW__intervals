@@ -9,7 +9,7 @@ public class NumberLine {
         return value - NumberLine.DEVIATION;
     }
 
-    static double equals(double value) {
+    static double equal(double value) {
         return value;
     }
 
