@@ -70,4 +70,12 @@ class IntervalTest {
         assertFalse(interval.include(right.getGreater()));
     }
 
+    @Test
+    void givenIntervalOpenOpenTestHasIntersection() {
+        Interval interval = this.intervalBuilder.open(left.getEqual()).open(right.getEqual()).build();
+        Interval interval2 = new IntervalBuilder().open(left.getGreater()).open(right.getLess()).build();
+
+        assertTrue(interval.hasIntersection(interval2));
+    }
+
 }
