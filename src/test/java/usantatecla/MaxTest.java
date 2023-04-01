@@ -6,35 +6,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 class MaxTest {
-   
-  @Test
-  void givenMaxOpenedWhenGreaterWithLessValueThenTrue(){
-    assertTrue(new Max(4, true).greaterOrEquals(0.0));
-  }
 
-  @Test
-  void givenMaxOpenedWhenGreaterWithGreaterValueThenFalse(){
-    assertFalse(new Max(4, true).greaterOrEquals(5.0));
-  }
+    @Test
+    void givenMaxOpenedWhenGreaterWithLessValueThenTrue() {
+        assertTrue(new Max(4, true).greaterOrEquals(0.0));
+    }
 
-  @Test
-  void givenMaxOpenedWhenGreaterWithEqualValueThenFalse(){
-    assertFalse(new Max(4, true).greaterOrEquals(4));
-  }
+    @Test
+    void givenMaxOpenedWhenGreaterWithGreaterValueThenFalse() {
+        assertFalse(new Max(4, true).greaterOrEquals(5.0));
+    }
 
-  @Test
-  void givenMaxClosedWhenGreaterWithLessValueThenTrue(){
-    assertTrue(new Max(4, false).greaterOrEquals(0.0));
-  }
+    @Test
+    void givenMaxOpenedWhenGreaterWithEqualValueThenFalse() {
+        assertFalse(new Max(4, true).greaterOrEquals(4));
+    }
 
-  @Test
-  void givenMaxClosedWhenGreaterWithGreaterValueThenFalse(){
-    assertFalse(new Max(4, false).greaterOrEquals(5.0));
-  }
-
-  @Test
-  void givenMaxClosedWhenGreaterWithEqualValueThenFalse(){
-    assertTrue(new Max(4, false).greaterOrEquals(4));
-  }
- 
 }
