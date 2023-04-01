@@ -15,4 +15,9 @@ public class Interval {
         return this.min.isWithin(value) && this.max.isWithin(value);
     }
 
+    @Override
+    public String toString() {
+        return this.min.toString() + ", " + max.toString();
+    }
+
 }
