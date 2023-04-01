@@ -14,7 +14,11 @@ class MaxTest {
     @BeforeEach
     void before() {
         this.point = new Point(4.4);
-        this.max = new Max(this.point.getEqual());
+        this.max = this.createMax();
+    }
+
+    protected Max createMax() {
+        return new Max(this.point.getEqual());
     }
 
     @Test

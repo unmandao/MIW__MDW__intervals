@@ -14,7 +14,11 @@ class MinTest {
     @BeforeEach
     void before() {
         this.point = new Point(4.4);
-        this.min = new Min(this.point.getEqual());
+        this.min = this.createMin();
+    }
+
+    protected Min createMin() {
+        return new Min(this.point.getEqual());
     }
 
     @Test
