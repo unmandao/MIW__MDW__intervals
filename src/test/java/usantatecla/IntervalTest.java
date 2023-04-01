@@ -103,9 +103,9 @@ class IntervalTest {
     }
 
     @Test
-    void givenIntervalOpenOpenTestHasIntersectionWithOpenOpenLeftSideThenFalse() {
+    void givenIntervalOpenOpenTestHasIntersectionWithOpenClosedLeftSideThenFalse() {
         Interval interval = this.intervalBuilder.open(left.getEqual()).open(right.getEqual()).build();
-        Interval interval2 = new IntervalBuilder().open(left.getLess()).open(left.getEqual()).build();
+        Interval interval2 = new IntervalBuilder().open(left.getLess()).closed(left.getEqual()).build();
 
         assertFalse(interval.hasIntersection(interval2));
     }
