@@ -5,30 +5,31 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static usantatecla.Point.*;
 
 class MinTest {
 
     protected Min min;
+    protected Point point;
 
     @BeforeEach
     void before() {
-        this.min = new Min(VALUE);
+        this.point = new Point(4.4);
+        this.min = new Min(this.point.getEqual());
     }
 
     @Test
     void givenMinWhenIsWithinWithLessValueThenFalse() {
-        assertFalse(this.min.isWithin(getLess(VALUE)));
+        assertFalse(this.min.isWithin(this.point.getLess()));
     }
 
     @Test
     void givenMinWhenIsWithinWithEqualsValue() {
-        assertFalse(this.min.isWithin(getEqual(VALUE)));
+        assertFalse(this.min.isWithin(this.point.getEqual()));
     }
 
     @Test
     void givenMinWhenIsWithinWithGreaterValueThenTrue() {
-        assertTrue(this.min.isWithin(getGreater(VALUE)));
+        assertTrue(this.min.isWithin(this.point.getGreater()));
     }
 
 }

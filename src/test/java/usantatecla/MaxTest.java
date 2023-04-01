@@ -6,30 +6,30 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static usantatecla.Point.*;
-
 class MaxTest {
 
     protected Max max;
+    protected Point point;
 
     @BeforeEach
     void before() {
-        this.max = new Max(VALUE);
+        this.point = new Point(4.4);
+        this.max = new Max(this.point.getEqual());
     }
 
     @Test
     void givenMaxWhenIsWithinWithLessValueThenTrue() {
-        assertTrue(this.max.isWithin(getLess(VALUE)));
+        assertTrue(this.max.isWithin(this.point.getLess()));
     }
 
     @Test
     void givenMaxWhenIsWithinWithEqualsValue() {
-        assertFalse(this.max.isWithin(getEqual(VALUE)));
+        assertFalse(this.max.isWithin(this.point.getEqual()));
     }
 
     @Test
     void givenMaxWhenIsWithinWithGreaterValueThenFalse() {
-        assertFalse(this.max.isWithin(getGreater(VALUE)));
+        assertFalse(this.max.isWithin(this.point.getGreater()));
     }
 
 }

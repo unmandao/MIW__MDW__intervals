@@ -2,18 +2,22 @@ package usantatecla;
 
 public class Point {
 
-    static final double VALUE = 4.4;
     static final double DEVIATION = 0.1;
+    final double value;
 
-    static double getLess(double value) {
-        return value - Point.DEVIATION;
+    Point(double value) {
+        this.value = value;
     }
 
-    static double getEqual(double value) {
-        return value;
+    double getLess() {
+        return this.value - Point.DEVIATION;
     }
 
-    static double getGreater(double value) {
-        return value + Point.DEVIATION;
+    double getEqual() {
+        return this.value;
+    }
+
+    double getGreater() {
+        return this.value + Point.DEVIATION;
     }
 }
