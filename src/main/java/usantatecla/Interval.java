@@ -18,7 +18,7 @@ public class Interval {
     }
 
     public boolean hasIntersection(Interval interval2) {
-        return true;
+        return this.max.isWithin(interval2.min.value);
     }
 
     @Override
