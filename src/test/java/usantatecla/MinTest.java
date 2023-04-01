@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static usantatecla.NumberLine.*;
+import static usantatecla.Point.*;
 
 class MinTest {
 
@@ -18,17 +18,17 @@ class MinTest {
 
     @Test
     void givenMinWhenIsWithinWithLessValueThenFalse() {
-        assertFalse(this.min.isWithin(less(VALUE)));
+        assertFalse(this.min.isWithin(getLess(VALUE)));
     }
 
     @Test
     void givenMinWhenIsWithinWithEqualsValue() {
-        assertFalse(this.min.isWithin(equal(VALUE)));
+        assertFalse(this.min.isWithin(getEqual(VALUE)));
     }
 
     @Test
     void givenMinWhenIsWithinWithGreaterValueThenTrue() {
-        assertTrue(this.min.isWithin(greater(VALUE)));
+        assertTrue(this.min.isWithin(getGreater(VALUE)));
     }
 
 }

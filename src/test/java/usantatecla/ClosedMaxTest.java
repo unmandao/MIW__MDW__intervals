@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static usantatecla.NumberLine.VALUE;
-import static usantatecla.NumberLine.equal;
+import static usantatecla.Point.VALUE;
+import static usantatecla.Point.getEqual;
 
 public class ClosedMaxTest extends MaxTest {
 
@@ -19,7 +19,7 @@ public class ClosedMaxTest extends MaxTest {
     @Test
     @Override
     void givenMaxWhenIsWithinWithEqualsValue() {
-        assertTrue(this.max.isWithin(equal(VALUE)));
+        assertTrue(this.max.isWithin(getEqual(VALUE)));
     }
 
 }

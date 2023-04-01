@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static usantatecla.NumberLine.VALUE;
-import static usantatecla.NumberLine.equal;
+import static usantatecla.Point.VALUE;
+import static usantatecla.Point.getEqual;
 
 class ClosedMinTest extends MinTest {
 
@@ -18,7 +18,7 @@ class ClosedMinTest extends MinTest {
     @Test
     @Override
     void givenMinWhenIsWithinWithEqualsValue() {
-        assertTrue(this.min.isWithin(equal(VALUE)));
+        assertTrue(this.min.isWithin(getEqual(VALUE)));
     }
 
 }
