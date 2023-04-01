@@ -1,5 +1,7 @@
 package usantatecla;
 
+import java.util.Objects;
+
 public class Interval {
 
     private Min min;
@@ -20,4 +22,16 @@ public class Interval {
         return this.min.toString() + ", " + max.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Interval interval = (Interval) o;
+        return Objects.equals(min, interval.min) && Objects.equals(max, interval.max);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(min, max);
+    }
 }
