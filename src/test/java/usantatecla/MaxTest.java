@@ -3,27 +3,31 @@ package usantatecla;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class MaxTest {
 
-    protected Max createMax(double value) {
-        return new Max(value);
+    protected Max max;
+
+    @BeforeEach
+    void before() {
+        this.max = new Max(NumberLine.VALUE);
     }
 
     @Test
     void givenMaxWhenIsWithinWithLessValueThenTrue() {
-        assertTrue(createMax(NumberLine.VALUE).isWithin(NumberLine.less(NumberLine.VALUE)));
+        assertTrue(this.max.isWithin(NumberLine.less(NumberLine.VALUE)));
     }
 
     @Test
     void givenMaxWhenIsWithinWithEqualsValue() {
-        assertFalse(createMax(NumberLine.VALUE).isWithin(NumberLine.equals(NumberLine.VALUE)));
+        assertFalse(this.max.isWithin(NumberLine.equals(NumberLine.VALUE)));
     }
 
     @Test
     void givenMaxWhenIsWithinWithGreaterValueThenFalse() {
-        assertFalse(createMax(NumberLine.VALUE).isWithin(NumberLine.greater(NumberLine.VALUE)));
+        assertFalse(this.max.isWithin(NumberLine.greater(NumberLine.VALUE)));
     }
 
 }
