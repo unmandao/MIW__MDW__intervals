@@ -18,7 +18,7 @@ public class Interval {
     }
 
     public boolean hasIntersection(Interval interval2) {
-        return false;
+        return true;
     }
 
     @Override
