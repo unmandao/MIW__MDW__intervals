@@ -14,7 +14,7 @@ public class ClosedMaxTest extends MaxTest {
     @Test
     @Override
     void givenMaxWhenIsWithinWithEqualsValue() {
-        assertTrue(createMax(VALUE).isWithin(equals(VALUE)));
+        assertTrue(createMax(NumberLine.VALUE).isWithin(NumberLine.equals(NumberLine.VALUE)));
     }
 
 }

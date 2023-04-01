@@ -7,38 +7,23 @@ import org.junit.jupiter.api.Test;
 
 class MaxTest {
 
-    protected static final double VALUE = 4.4;
-    private static final double DEVIATION = 0.1;
-
     protected Max createMax(double value) {
         return new Max(value);
     }
 
     @Test
     void givenMaxWhenIsWithinWithLessValueThenTrue() {
-        assertTrue(createMax(VALUE).isWithin(less(VALUE)));
+        assertTrue(createMax(NumberLine.VALUE).isWithin(NumberLine.less(NumberLine.VALUE)));
     }
 
     @Test
     void givenMaxWhenIsWithinWithEqualsValue() {
-        assertFalse(createMax(VALUE).isWithin(equals(VALUE)));
+        assertFalse(createMax(NumberLine.VALUE).isWithin(NumberLine.equals(NumberLine.VALUE)));
     }
 
     @Test
     void givenMaxWhenIsWithinWithGreaterValueThenFalse() {
-        assertFalse(createMax(VALUE).isWithin(greater(VALUE)));
-    }
-
-    protected double less(double value) {
-        return value - MaxTest.DEVIATION;
-    }
-
-    protected double equals(double value) {
-        return value;
-    }
-
-    protected double greater(double value) {
-        return value + MaxTest.DEVIATION;
+        assertFalse(createMax(NumberLine.VALUE).isWithin(NumberLine.greater(NumberLine.VALUE)));
     }
 
 }
