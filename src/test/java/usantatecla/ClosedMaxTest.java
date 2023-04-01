@@ -5,21 +5,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-public class IncludedMaxTest {
+public class ClosedMaxTest {
 
     @Test
     public void givenMaxClosedwhenGreaterWithLessValueThenTrue() {
-        assertTrue(new IncludedMax(4).isOnLeft(0.0));
+        assertTrue(new ClosedMax(4).isWithin(0.0));
     }
 
     @Test
     public void givenMaxClosedwhenGreaterWithGreaterValueThenFalse() {
-        assertFalse(new IncludedMax(4).isOnLeft(5.0));
+        assertFalse(new ClosedMax(4).isWithin(5.0));
     }
 
     @Test
     public void givenMaxClosedwhenGreaterWithEqualValueThenFalse() {
-        assertTrue(new IncludedMax(4).isOnLeft(4));
+        assertTrue(new ClosedMax(4).isWithin(4));
     }
 
 }

@@ -9,17 +9,17 @@ class MaxTest {
 
     @Test
     void givenMaxOpenedWhenGreaterWithLessValueThenTrue() {
-        assertTrue(new Max(4).isOnLeft(0.0));
+        assertTrue(new Max(4).isWithin(0.0));
     }
 
     @Test
     void givenMaxOpenedWhenGreaterWithGreaterValueThenFalse() {
-        assertFalse(new Max(4).isOnLeft(5.0));
+        assertFalse(new Max(4).isWithin(5.0));
     }
 
     @Test
     void givenMaxOpenedWhenGreaterWithEqualValueThenFalse() {
-        assertFalse(new Max(4).isOnLeft(4));
+        assertFalse(new Max(4).isWithin(4));
     }
 
 }
