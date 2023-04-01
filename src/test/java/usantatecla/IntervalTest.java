@@ -8,17 +8,33 @@ import org.junit.jupiter.api.Test;
 class IntervalTest {
 
     @Test
-    void givenIntervalWhenIncludeWithIncludedValueThenTrue() {
+    void givenIntervalOpenOpenWhenIncludeWithIncludedValueThenTrue() {
         assertTrue(new Interval(true, -1.7, new Max(5555.0)).include(0.0));
     }
 
     @Test
-    void givenIntervalWhenIncludeWithNotIncludedValueThenFalse() {
+    void givenIntervalOpenOpenWhenIncludeWithNotIncludedValueThenFalse() {
         assertFalse(new Interval(true, -1.7, new Max(5555.0)).include(9000.0));
     }
 
     @Test
-    void givenIntervalWhenIncludeWithLimitValueThenFalse() {
+    void givenIntervalOpenOpenWhenIncludeWithLimitValueThenFalse() {
         assertFalse(new Interval(true, -1.7, new Max(5555.0)).include(5555.0));
     }
+
+    @Test
+    void givenIntervalOpenCloseWhenIncludeWithIncludedValueThenTrue() {
+        assertTrue(new Interval(true, -1.7, new IncludedMax(5555.0)).include(0.0));
+    }
+
+    @Test
+    void givenIntervalOpenCloseWhenIncludeWithNotIncludedValueThenFalse() {
+        assertFalse(new Interval(true, -1.7, new IncludedMax(5555.0)).include(9000.0));
+    }
+
+    @Test
+    void givenIntervalOpenCloseWhenIncludeWithLimitValueThenTrue() {
+        assertTrue(new Interval(true, -1.7, new IncludedMax(5555.0)).include(5555.0));
+    }
+
 }
