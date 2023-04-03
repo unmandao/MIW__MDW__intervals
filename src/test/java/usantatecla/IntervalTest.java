@@ -1,14 +1,18 @@
 package usantatecla;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class IntervalTest {
 
-    private final Point left = new Point(-2.2);
-    private final Point right = new Point(4.4);
+    private static final Point left = new Point(-2.2);
+    private static final Point right = new Point(4.4);
 
     @Test
     void givenIntervalOpenOpenTest() {
@@ -62,67 +66,159 @@ class IntervalTest {
         assertFalse(interval.include(right.getGreater()));
     }
 
-    @Test
-    void givenIntervalOpenOpenTestHasIntersectionWithOpenOpenThenTrue() {
+    @ParameterizedTest
+    @MethodSource("provideIntervalsForOpenOpen")
+    void givenIntervalOpenOpenTestHasIntersection(Interval interval2, boolean expected) {
         Interval interval = new IntervalBuilder().open(left.getEqual()).open(right.getEqual()).build();
-        Interval interval2 = new IntervalBuilder().open(left.getGreater()).open(right.getLess()).build();
 
-        assertTrue(interval.hasIntersection(interval2));
+        assertEquals(expected, interval.hasIntersection(interval2));
     }
 
-    @Test
-    void givenIntervalOpenOpenTestHasIntersectionWithOpenOpenThenFalse() {
-        Interval interval = new IntervalBuilder().open(left.getEqual()).open(right.getEqual()).build();
-        Interval interval2 = new IntervalBuilder().open(right.getEqual()).open(right.getGreater()).build();
+    private static Stream<Arguments> provideIntervalsForOpenOpen() {
+        return Stream.concat(
+                Stream.of(
+                        Arguments.of(new IntervalBuilder().open(right.getEqual()).open(right.getGreater()).build(), false),
+                        Arguments.of(new IntervalBuilder().open(left.getLess()).open(left.getEqual()).build(), false),
 
-        assertFalse(interval.hasIntersection(interval2));
+                        Arguments.of(new IntervalBuilder().closed(right.getEqual()).open(right.getGreater()).build(), false),
+                        Arguments.of(new IntervalBuilder().closed(left.getLess()).open(left.getEqual()).build(), false),
+
+                        Arguments.of(new IntervalBuilder().open(right.getEqual()).closed(right.getGreater()).build(), false),
+                        Arguments.of(new IntervalBuilder().open(left.getLess()).closed(left.getEqual()).build(), false),
+
+                        Arguments.of(new IntervalBuilder().closed(right.getEqual()).closed(right.getGreater()).build(), false),
+                        Arguments.of(new IntervalBuilder().closed(left.getLess()).closed(left.getEqual()).build(), false)
+                ),
+                provideCommonIntervals());
     }
 
-    @Test
-    void givenIntervalOpenClosedTestHasIntersectionWithOpenOpenThenFalse() {
-        Interval interval = new IntervalBuilder().open(left.getEqual()).closed(right.getEqual()).build();
-        Interval interval2 = new IntervalBuilder().open(right.getEqual()).open(right.getGreater()).build();
-
-        assertFalse(interval.hasIntersection(interval2));
-    }
-
-    @Test
-    void givenIntervalOpenClosedTestHasIntersectionWithClosedOpenThenTrue() {
-        Interval interval = new IntervalBuilder().open(left.getEqual()).closed(right.getEqual()).build();
-        Interval interval2 = new IntervalBuilder().closed(right.getEqual()).open(right.getGreater()).build();
-
-        assertTrue(interval.hasIntersection(interval2));
-    }
-
-    @Test
-    void givenIntervalOpenOpenTestHasIntersectionWithOpenClosedLeftSideThenFalse() {
-        Interval interval = new IntervalBuilder().open(left.getEqual()).open(right.getEqual()).build();
-        Interval interval2 = new IntervalBuilder().open(left.getLess()).closed(left.getEqual()).build();
-
-        assertFalse(interval.hasIntersection(interval2));
-    }
-
-    @Test
-    void givenIntervalClosedOpenTestHasIntersectionWithOpenClosedLeftSideThenTrue() {
+    @ParameterizedTest
+    @MethodSource("provideIntervalsForClosedOpen")
+    void givenIntervalClosedOpenTestHasIntersection(Interval interval2, boolean expected) {
         Interval interval = new IntervalBuilder().closed(left.getEqual()).open(right.getEqual()).build();
-        Interval interval2 = new IntervalBuilder().open(left.getLess()).closed(left.getEqual()).build();
 
-        assertTrue(interval.hasIntersection(interval2));
+        assertEquals(expected, interval.hasIntersection(interval2));
     }
 
-    @Test
-    void givenIntervalOpenOpenTestHasIntersectionWithOpenOpenLeftSideThenTrue() {
-        Interval interval = new IntervalBuilder().open(left.getEqual()).open(right.getEqual()).build();
-        Interval interval2 = new IntervalBuilder().open(left.getLess()).open(left.getGreater()).build();
+    private static Stream<Arguments> provideIntervalsForClosedOpen() {
+        return Stream.concat(
+                Stream.of(
+                        Arguments.of(new IntervalBuilder().open(right.getEqual()).open(right.getGreater()).build(), false),
+                        Arguments.of(new IntervalBuilder().open(left.getLess()).open(left.getEqual()).build(), false),
 
-        assertTrue(interval.hasIntersection(interval2));
+                        Arguments.of(new IntervalBuilder().closed(right.getEqual()).open(right.getGreater()).build(), false),
+                        Arguments.of(new IntervalBuilder().closed(left.getLess()).open(left.getEqual()).build(), false),
+
+                        Arguments.of(new IntervalBuilder().open(right.getEqual()).closed(right.getGreater()).build(), false),
+                        Arguments.of(new IntervalBuilder().open(left.getLess()).closed(left.getEqual()).build(), true),
+
+                        Arguments.of(new IntervalBuilder().closed(right.getEqual()).closed(right.getGreater()).build(), false),
+                        Arguments.of(new IntervalBuilder().closed(left.getLess()).closed(left.getEqual()).build(), true)
+                ),
+                provideCommonIntervals());
     }
 
-    @Test
-    void givenIntervalClosedOpenTestHasIntersectionWithOpenOpenLeftSideThenFalse() {
-        Interval interval = new IntervalBuilder().closed(left.getEqual()).open(right.getEqual()).build();
-        Interval interval2 = new IntervalBuilder().open(left.getLess()).open(left.getEqual()).build();
+    @ParameterizedTest
+    @MethodSource("provideIntervalsForOpenClosed")
+    void givenIntervalOpenClosedTestHasIntersection(Interval interval2, boolean expected) {
+        Interval interval = new IntervalBuilder().open(left.getEqual()).closed(right.getEqual()).build();
 
-        assertFalse(interval.hasIntersection(interval2));
+        assertEquals(expected, interval.hasIntersection(interval2));
+    }
+
+    private static Stream<Arguments> provideIntervalsForOpenClosed() {
+        return Stream.concat(
+                Stream.of(
+                        Arguments.of(new IntervalBuilder().open(right.getEqual()).open(right.getGreater()).build(), false),
+                        Arguments.of(new IntervalBuilder().open(left.getLess()).open(left.getEqual()).build(), false),
+
+                        Arguments.of(new IntervalBuilder().closed(right.getEqual()).open(right.getGreater()).build(), true),
+                        Arguments.of(new IntervalBuilder().closed(left.getLess()).open(left.getEqual()).build(), false),
+
+                        Arguments.of(new IntervalBuilder().open(right.getEqual()).closed(right.getGreater()).build(), false),
+                        Arguments.of(new IntervalBuilder().open(left.getLess()).closed(left.getEqual()).build(), false),
+
+                        Arguments.of(new IntervalBuilder().closed(right.getEqual()).closed(right.getGreater()).build(), true),
+                        Arguments.of(new IntervalBuilder().closed(left.getLess()).closed(left.getEqual()).build(), false)
+                ),
+                provideCommonIntervals());
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideIntervalsForClosedClosed")
+    void givenIntervalClosedClosedTestHasIntersection(Interval interval2, boolean expected) {
+        Interval interval = new IntervalBuilder().closed(left.getEqual()).closed(right.getEqual()).build();
+
+        assertEquals(expected, interval.hasIntersection(interval2));
+    }
+
+    private static Stream<Arguments> provideIntervalsForClosedClosed() {
+        return Stream.concat(
+                Stream.of(
+                        Arguments.of(new IntervalBuilder().open(right.getEqual()).open(right.getGreater()).build(), false),
+                        Arguments.of(new IntervalBuilder().open(left.getLess()).open(left.getEqual()).build(), false),
+
+                        Arguments.of(new IntervalBuilder().closed(right.getEqual()).open(right.getGreater()).build(), true),
+                        Arguments.of(new IntervalBuilder().closed(left.getLess()).open(left.getEqual()).build(), false),
+
+                        Arguments.of(new IntervalBuilder().open(right.getEqual()).closed(right.getGreater()).build(), false),
+                        Arguments.of(new IntervalBuilder().open(left.getLess()).closed(left.getEqual()).build(), true),
+
+                        Arguments.of(new IntervalBuilder().closed(right.getEqual()).closed(right.getGreater()).build(), true),
+                        Arguments.of(new IntervalBuilder().closed(left.getLess()).closed(left.getEqual()).build(), true)
+                ),
+                provideCommonIntervals());
+    }
+
+    private static Stream<Arguments> provideCommonIntervals() {
+        return Stream.of(
+                Arguments.of(new IntervalBuilder().open(right.getGreater()).open(right.getGreater() + Point.DEVIATION).build(), false),
+                Arguments.of(new IntervalBuilder().open(right.getLess()).open(right.getGreater()).build(), true),
+                Arguments.of(new IntervalBuilder().open(left.getGreater()).open(right.getLess()).build(), true),
+                Arguments.of(new IntervalBuilder().open(left.getLess()).open(left.getGreater()).build(), true),
+                Arguments.of(new IntervalBuilder().open(left.getLess() - Point.DEVIATION).open(left.getLess()).build(), false),
+                Arguments.of(new IntervalBuilder().open(left.getLess()).open(right.getGreater()).build(), true),
+                Arguments.of(new IntervalBuilder().open(left.getGreater()).open(right.getEqual()).build(), true),
+                Arguments.of(new IntervalBuilder().open(left.getLess()).open(right.getEqual()).build(), true),
+                Arguments.of(new IntervalBuilder().open(left.getEqual()).open(right.getLess()).build(), true),
+                Arguments.of(new IntervalBuilder().open(left.getEqual()).open(right.getGreater()).build(), true),
+                Arguments.of(new IntervalBuilder().open(left.getEqual()).open(right.getEqual()).build(), true),
+
+                Arguments.of(new IntervalBuilder().closed(right.getGreater()).open(right.getGreater() + Point.DEVIATION).build(), false),
+                Arguments.of(new IntervalBuilder().closed(right.getLess()).open(right.getGreater()).build(), true),
+                Arguments.of(new IntervalBuilder().closed(left.getGreater()).open(right.getLess()).build(), true),
+                Arguments.of(new IntervalBuilder().closed(left.getLess()).open(left.getGreater()).build(), true),
+                Arguments.of(new IntervalBuilder().closed(left.getLess() - Point.DEVIATION).open(left.getLess()).build(), false),
+                Arguments.of(new IntervalBuilder().closed(left.getLess()).open(right.getGreater()).build(), true),
+                Arguments.of(new IntervalBuilder().closed(left.getGreater()).open(right.getEqual()).build(), true),
+                Arguments.of(new IntervalBuilder().closed(left.getLess()).open(right.getEqual()).build(), true),
+                Arguments.of(new IntervalBuilder().closed(left.getEqual()).open(right.getLess()).build(), true),
+                Arguments.of(new IntervalBuilder().closed(left.getEqual()).open(right.getGreater()).build(), true),
+                Arguments.of(new IntervalBuilder().closed(left.getEqual()).open(right.getEqual()).build(), true),
+
+                Arguments.of(new IntervalBuilder().open(right.getGreater()).closed(right.getGreater() + Point.DEVIATION).build(), false),
+                Arguments.of(new IntervalBuilder().open(right.getLess()).closed(right.getGreater()).build(), true),
+                Arguments.of(new IntervalBuilder().open(left.getGreater()).closed(right.getLess()).build(), true),
+                Arguments.of(new IntervalBuilder().open(left.getLess()).closed(left.getGreater()).build(), true),
+                Arguments.of(new IntervalBuilder().open(left.getLess() - Point.DEVIATION).closed(left.getLess()).build(), false),
+                Arguments.of(new IntervalBuilder().open(left.getLess()).closed(right.getGreater()).build(), true),
+                Arguments.of(new IntervalBuilder().open(left.getGreater()).closed(right.getEqual()).build(), true),
+                Arguments.of(new IntervalBuilder().open(left.getLess()).closed(right.getEqual()).build(), true),
+                Arguments.of(new IntervalBuilder().open(left.getEqual()).closed(right.getLess()).build(), true),
+                Arguments.of(new IntervalBuilder().open(left.getEqual()).closed(right.getGreater()).build(), true),
+                Arguments.of(new IntervalBuilder().open(left.getEqual()).closed(right.getEqual()).build(), true),
+
+                Arguments.of(new IntervalBuilder().closed(right.getGreater()).closed(right.getGreater() + Point.DEVIATION).build(), false),
+                Arguments.of(new IntervalBuilder().closed(right.getLess()).closed(right.getGreater()).build(), true),
+                Arguments.of(new IntervalBuilder().closed(left.getGreater()).closed(right.getLess()).build(), true),
+                Arguments.of(new IntervalBuilder().closed(left.getLess()).closed(left.getGreater()).build(), true),
+                Arguments.of(new IntervalBuilder().closed(left.getLess() - Point.DEVIATION).closed(left.getLess()).build(), false),
+                Arguments.of(new IntervalBuilder().closed(left.getLess()).closed(right.getGreater()).build(), true),
+                Arguments.of(new IntervalBuilder().closed(left.getGreater()).closed(right.getEqual()).build(), true),
+                Arguments.of(new IntervalBuilder().closed(left.getLess()).closed(right.getEqual()).build(), true),
+                Arguments.of(new IntervalBuilder().closed(left.getEqual()).closed(right.getLess()).build(), true),
+                Arguments.of(new IntervalBuilder().closed(left.getEqual()).closed(right.getGreater()).build(), true),
+                Arguments.of(new IntervalBuilder().closed(left.getEqual()).closed(right.getEqual()).build(), true)
+        );
     }
 }
